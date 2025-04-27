@@ -83,3 +83,19 @@ app.delete('/envelopes/:name', (req, res) => {
         res.send({ message: 'Envelope deleted', envelopes });
     }
 });
+
+// Endpoint to move money between envelopes
+app.post('/envelopes/transfer/:from/:to', (req, res) => {
+    const { from, to } = req.params;
+    const { amount } = req.body;
+
+    if (!envelopes[from] || !envelopes[to]) {
+        return res.status(404).send({ error: 'One or both envelopes not found' });
+    } else if (typeof amount !== 'number' || amount <= 0 || amount > envelopes[from]) {
+        return res.status(400).send({ error: 'Invalid transfer amount' });
+    } else {
+        envelopes[from] -= amount;
+        envelopes[to] += amount;
+        res.send({ message: 'Money moved', envelopes });
+    }
+});
