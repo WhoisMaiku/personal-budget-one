@@ -32,12 +32,12 @@ app.listen(PORT, () => {
 });
 
 // Endpoint to retrieve all envelopes
-
 app.get('/envelopes', (req, res) => {
+    // Check if there are any envelopes
     if (Object.keys(envelopes).length === 0) {
         return res.status(404).send({ error: 'No envelopes found' });
     }
-    else{
+    else {
         res.send({ envelopes });
     }
 });
