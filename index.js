@@ -70,3 +70,16 @@ app.put('/envelopes/:name', (req, res) => {
         res.send({ message: 'Envelope updated', envelopes });
     }
 });
+
+// Endpoint to delete an envelope
+app.delete('/envelopes/:name', (req, res) => {
+    const { name } = req.params;
+
+    if (!envelopes[name]) {
+        return res.status(404).send({ error: 'Envelope not found' });
+    } else {
+        totalBudget -= envelopes[name];
+        delete envelopes[name];
+        res.send({ message: 'Envelope deleted', envelopes });
+    }
+});
