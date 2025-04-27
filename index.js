@@ -41,3 +41,16 @@ app.get('/envelopes', (req, res) => {
         res.send({ envelopes });
     }
 });
+
+// Endpoint to retrieve a specific envelope
+app.get('/envelopes/:name', (req, res) => {
+    const { name } = req.params;
+
+    // Check if the envelope exists
+    if (!envelopes[name]) {
+        return res.status(404).send({ error: 'Envelope not found' });
+    }
+    else {
+        res.send({ name, budget: envelopes[name] });
+    }
+});
