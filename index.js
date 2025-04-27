@@ -54,3 +54,19 @@ app.get('/envelopes/:name', (req, res) => {
         res.send({ name, budget: envelopes[name] });
     }
 });
+
+// Endpoint to update an envelope and balances
+app.put('/envelopes/:name', (req, res) => {
+    const { name } = req.params;
+    const { budget } = req.body;
+
+    if (!envelopes[name]) {
+        return res.status(404).send( {error: 'Envelope not found'});
+    } else if (typeof budget !== 'number' || budget <= 0) {
+        return res.status(400).send({ error: 'Invalid budget value' });
+    } else {
+        totalBudget += budget - envelopes[name];
+        envelopes[name] = budget;
+        res.send({ message: 'Envelope updated', envelopes });
+    }
+});
