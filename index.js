@@ -31,8 +31,13 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-app.get('/', (req, res) => {
-  res.status(200).send({
-    message: 'Hello World',
-  });
+// Endpoint to retrieve all envelopes
+
+app.get('/envelopes', (req, res) => {
+    if (Object.keys(envelopes).length === 0) {
+        return res.status(404).send({ error: 'No envelopes found' });
+    }
+    else{
+        res.send({ envelopes });
+    }
 });
